@@ -1,6 +1,5 @@
 package test.coinmarketcap.stepdefs;
 
-import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -9,14 +8,9 @@ import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
 import org.apache.commons.lang3.StringUtils;
-import org.junit.Assert;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
-
 import static io.restassured.RestAssured.given;
-import static io.restassured.RestAssured.when;
 import static org.hamcrest.Matchers.*;
 
 
@@ -25,15 +19,17 @@ public class MyBackendStepdefs {
     private ValidatableResponse json;
     private Response response;
 
-
-    private static String apiKey = "7458a725-e9b8-4bdc-8499-22ac3a2a5f0b";
-    private static  String  repo_url = "https://pro-api.coinmarketcap.com/v1";
+    private static String apiAuthKey = "X-CMC_PRO_API_KEY";
+    private static String apiAuthValue = "7458a725-e9b8-4bdc-8499-22ac3a2a5f0b";
+    private static  String baseURL = "https://pro-api.coinmarketcap.com/v1";
     ArrayList<Integer> ids;
 
     @Given("user calls {} service")
     public void userCallsCryptocurrencyMapService(String url) {
-        url = repo_url+ url;
-        response = given().header("X-CMC_PRO_API_KEY", "7458a725-e9b8-4bdc-8499-22ac3a2a5f0b").header("Content-Type", "application/json").get(url);
+        url = baseURL + url;
+        response = given().header(apiAuthKey, apiAuthValue)
+                .header("Content-Type", "application/json")
+                .get(url);
      }
 
     @When("the status code is {int}")
@@ -63,36 +59,38 @@ public class MyBackendStepdefs {
     @Then("user convert them to Bolivian Boliviano using the {} call")
     public void userConvertThemToBolivianBolivianoUsingTheToolsPriceConversionCall(String url) {
         for(int i=0; i< ids.size();i++) {
-            String urlGet = repo_url +url+"?id="+ids.get(i)+"&amount=50&convert=BOB";
-            given().header("X-CMC_PRO_API_KEY", "7458a725-e9b8-4bdc-8499-22ac3a2a5f0b").header("Content-Type", "application/json")
-                    .get(urlGet).then().assertThat().body("data.quote.BOB.price", notNullValue());
+            String urlGet = baseURL +url+"?id="+ids.get(i)+"&amount=50&convert=BOB";
+            given().header(apiAuthKey, apiAuthValue)
+                    .header("Content-Type", "application/json")
+                    .get(urlGet)
+                    .then().assertThat().body("data.quote.BOB.price", notNullValue());
         }
      }
 
-
     @Then("response includes the following")
     public void responseIncludesTheFollowing(Map<String,String> responseFields) {
-            for (Map.Entry<String,String> field : responseFields.entrySet()) {
-                if (!field.getValue().equals("null"))  {
-                    if (StringUtils.isNumeric(field.getValue())) {
-                        json.body(field.getKey(),equalTo(Integer.parseInt(field.getValue())));
-                    }
-                    else
-                        json.body(field.getKey(),equalTo(field.getValue()));
+        for (Map.Entry<String,String> field : responseFields.entrySet()) {
+            if (!field.getValue().equals("null"))  {
+                if (StringUtils.isNumeric(field.getValue())) {
+                    json.body(field.getKey(),equalTo(Integer.parseInt(field.getValue())));
                 }
-                else {
-                    json.body(field.getKey(), not(notNullValue()));
-                }
+                else
+                    json.body(field.getKey(),equalTo(field.getValue()));
             }
-
+            else {
+                json.body(field.getKey(), not(notNullValue()));
+            }
         }
-
+    }
 
     @Given("user placed {} call by Ethereum ID {}")
     public void userCallsCryptocurrencyInfoCallByEthereumID(String url, int etheriumId) {
 //        https://pro-api.coinmarketcap.com/v1/cryptocurrency/info
-        url = repo_url + url + "?id=" + etheriumId;
-        response = given().header("X-CMC_PRO_API_KEY", "7458a725-e9b8-4bdc-8499-22ac3a2a5f0b").header("Content-Type", "application/json").get(url);
+        url = baseURL + url + "?id=" + etheriumId;
+        response = given()
+                    .header(apiAuthKey, apiAuthValue)
+                    .header("Content-Type", "application/json")
+                    .get(url);
 
     }
 

@@ -15,12 +15,12 @@ Feature: Scenarios for CoinMarketCap frontend tests
       Given user placed /cryptocurrency/info call by Ethereum ID 1027
       When user gets response
       Then response includes the following
-      | data.1027.logo               | https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png |
-      | data.1027.urls.technical_doc[0] | https://github.com/ethereum/wiki/wiki/White-Paper   |
-      | data.1027.symbol              | ETH                                                 |
-      | data.1027.date_added          | 2015-08-07T00:00:00.000Z                            |
-      | data.1027.platform            | null                                                |
-      | data.1027.tags[0]              | mineable                                            |
+      | data.1027.logo                  | https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png |
+      | data.1027.urls.technical_doc[0] | https://github.com/ethereum/wiki/wiki/White-Paper            |
+      | data.1027.symbol                | ETH                                                          |
+      | data.1027.date_added            | 2015-08-07T00:00:00.000Z                                     |
+      | data.1027.platform              |null                                                          |
+      | data.1027.tags[0]               | mineable                                                     |
 
 #    1. Retrieve the Ethereum (ID 1027) technical documentation website from the
 #    cryptocurrency/info call.
