@@ -53,7 +53,6 @@ public class MyBackendStepdefs {
                 ids.add(((ArrayList<java.lang.Integer>) (extractor.get("data.id"))).get(i));
             }
         }
-
     }
 
     @Then("user convert them to Bolivian Boliviano using the {} call")
