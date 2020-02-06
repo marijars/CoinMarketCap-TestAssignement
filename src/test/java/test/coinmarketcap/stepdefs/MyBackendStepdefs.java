@@ -9,6 +9,7 @@ import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
 import org.apache.commons.lang3.StringUtils;
+import org.junit.Assert;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -72,11 +73,16 @@ public class MyBackendStepdefs {
     @Then("response includes the following")
     public void responseIncludesTheFollowing(Map<String,String> responseFields) {
             for (Map.Entry<String,String> field : responseFields.entrySet()) {
-                if (StringUtils.isNumeric(field.getValue())) {
-                    json.body(field.getKey(),equalTo(Integer.parseInt(field.getValue())));
+                if (!field.getValue().equals("null"))  {
+                    if (StringUtils.isNumeric(field.getValue())) {
+                        json.body(field.getKey(),equalTo(Integer.parseInt(field.getValue())));
+                    }
+                    else
+                        json.body(field.getKey(),equalTo(field.getValue()));
                 }
-                else
-                    json.body(field.getKey(),equalTo(field.getValue()));
+                else {
+                    json.body(field.getKey(), not(notNullValue()));
+                }
             }
 
         }
