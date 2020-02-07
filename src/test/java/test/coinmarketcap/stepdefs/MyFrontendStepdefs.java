@@ -63,11 +63,13 @@ public class MyFrontendStepdefs {
         List<Integer> randomIDs = new ArrayList<Integer>();
 
         // generate a list of random IDs, which cryptocurrencies will be add to watchlist
-        int i = 0;
+        int no;
         do{
-            randomIDs.add(helper.getRandomNumberInRange(1, 100));
-            i++;
-        } while(i < numberOfCryptocurrencies);
+            no = helper.getRandomNumberInRange(1, 100);
+            if (!randomIDs.contains(no)) {
+                randomIDs.add(no);
+            }
+        } while(randomIDs.size() < numberOfCryptocurrencies);
 
         for (int id : randomIDs) {
             Cryptocurrency cryptocurrency = new Cryptocurrency(id, helper.getCryptocurrencyName(id), helper.getCryptocurrencyMarketCap(id), helper.getCryptocurrencyPrice(id), helper.getCryptocurrencyVolume24h(id));
@@ -84,7 +86,7 @@ public class MyFrontendStepdefs {
     @Then("selected cryptocurrencies are displayed in the watchlist tab")
     public void selectedCryptocurrenciesAreDisplayedInTheWatchlistTab() {
         boolean listMatches = helper.verifyListOfDisplayedCryptocurrencies(listOfCryptocurrencies);
-        Assert.assertEquals("", true, listMatches);
+        Assert.assertTrue("There is a mismatch in lists!",  listMatches);
     }
 
     @When("user selects full list option for cryptocurrencies {}")
