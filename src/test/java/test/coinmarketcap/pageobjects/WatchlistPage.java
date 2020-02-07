@@ -14,17 +14,5 @@ public class WatchlistPage {
         this.watchlist = driver;
     }
 
-   // By urlLink =
 
-    public void open() throws InterruptedException
-    {
-        //watchlist.get(watchlistURL);
-        //watchlist.switchTo().window()
-        ((JavascriptExecutor) watchlist).executeScript("window.open()");
-        ArrayList<String> tabs = new ArrayList<String>(watchlist.getWindowHandles());
-        watchlist.switchTo().window(tabs.get(1));
-        watchlist.get(watchlistURL);
-        Thread.sleep(3000);
-
-    }
 }

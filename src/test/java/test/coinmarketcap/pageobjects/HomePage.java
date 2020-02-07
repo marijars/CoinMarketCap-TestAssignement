@@ -1,13 +1,9 @@
 package test.coinmarketcap.pageobjects;
 
-import org.junit.rules.ExpectedException;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import test.coinmarketcap.data.Cryptocurrency;
 
 public class HomePage {
     WebDriver homePage;
@@ -35,7 +31,7 @@ public class HomePage {
         homePage.get(url);
     }
 
-    public int countOfCriptocurrencies() {
+    public int numberOfListedCryptocurrencies() {
         int count = homePage.findElements(rows).size();
         return count-1;
     }
@@ -48,6 +44,5 @@ public class HomePage {
         //((JavascriptExecutor) homePage).executeScript("arguments[0].click();", rowToMenu);
         //((JavascriptExecutor) homePage).executeScript("arguments[0].click();", rowToMenu);
         homePage.findElement(addToWatchlist);
-
     }
 }
